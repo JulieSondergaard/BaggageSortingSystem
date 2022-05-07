@@ -12,6 +12,7 @@ namespace BaggageSortingSystem
         Desk desk1 = new Desk();
         Desk desk2 = new Desk();
         Desk desk3 = new Desk();
+        
 
         private int maxQueueLength = 10;
 
@@ -39,7 +40,9 @@ namespace BaggageSortingSystem
 
                     }
                     Monitor.PulseAll(desk1.DeskQueue);
+                   
                 }
+
 
                 lock (desk2.DeskQueue)
                 {
@@ -56,6 +59,7 @@ namespace BaggageSortingSystem
                     Monitor.PulseAll(desk2.DeskQueue);
                 }
 
+
                 lock (desk3.DeskQueue)
                 {
 
@@ -70,6 +74,7 @@ namespace BaggageSortingSystem
                     }
                     Monitor.PulseAll(desk3.DeskQueue);
                 }
+
             }
         }
     }

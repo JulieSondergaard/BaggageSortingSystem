@@ -28,20 +28,43 @@ namespace BaggageSortingSystem
 
         public void CheckIn()
         {
+            while (true)
+            {
+                lock (deskQueue)
+                {
 
+                    if (deskQueue.Count <= 3)
+                    {
+                        Monitor.Wait(deskQueue);
+                    }
+                    else
+                    {
+                        foreach (Luggage luggage in DeskQueue)
+                        {
+                            if (random.Next(1, 4) == 1)
+                            {
+                                luggage.Id = Destination[0] + number;
+                                
 
-            if (random.Next(1, 4) == 1)
-            {
-                desk.LuggageQueue.Enqueue(new Luggage { Id = Destination[0] + number });
+                            }
+                            else if (random.Next(1, 4) == 2)
+                            {
+                                luggage.Id = Destination[1] + number;
+                            }
+                            else
+                            {
+                                luggage.Id = Destination[2] + number;
+                            }
+                          //  Console.WriteLine($"{luggage.Id} has been checked in.");
+                            number++;
+                        }
+                        Monitor.PulseAll(deskQueue);
+
+                    }
+                }
             }
-            else if (random.Next(1, 4) == 2)
-            {
-                desk.LuggageQueue.Enqueue(new Luggage { Id = Destination[1] + number });
-            }
-            else
-            {
-                luggageQueue.Enqueue(new Luggage { Id = Destination[2] + number });
-            }
+
+           
         }
     }
 }
